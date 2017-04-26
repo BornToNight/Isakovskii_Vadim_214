@@ -1,4 +1,4 @@
-word1 = 'лом'
+word1 = 'лом' #Задание №160
 word2 = 'лол'
 ws1 = set(word1)
 ws2 = set(word2)
