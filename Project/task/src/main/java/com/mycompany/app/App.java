@@ -70,7 +70,6 @@ public class App {
                         map.merge(employee.getId().toLowerCase(), Integer.parseInt(employee.getCount()), (oldValue, newValue) -> oldValue + newValue); //Добавление данных в первую карту
                         map2.merge(employee.getId().toLowerCase(), Integer.parseInt(employee.getCount()), (oldValue, newValue) -> oldValue + newValue);//Добавление данных в вторую карту
                         employeeList.add(employee);
-
                         //Цикл добавления данных в двумерный массив
                         for (int i = 0; i < array.length; i++){
                             //Если такой id уже имеется, записываются данные в этот массив
@@ -89,6 +88,7 @@ public class App {
                             }
                         }
                     }
+
                     csvBeanReader.close();
                 }
             }
