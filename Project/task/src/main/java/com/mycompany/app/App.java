@@ -40,7 +40,7 @@ public class App {
         final CsvPreference STANDARD_SKIP_COMMENTS = new CsvPreference.Builder(CsvPreference.STANDARD_PREFERENCE).skipComments(new CommentStartsWith("#")).build(); //Пропускать строки начинающиеся на # (комментарии)
         CellProcessor[] procs = getProcessors();
 
-        List<Employee> employeeList = new ArrayList<>();
+        List<Data> dataList = new ArrayList<>();
         String[] mapping = new String[]{"id", "count"};
         Map<String, Integer> map = new HashMap<>(); //Карта для первого JSON
         ObjectMapper mapper = new ObjectMapper();
@@ -54,7 +54,7 @@ public class App {
         map2.put("markfv", null);
         map2.put("markfx", null);
         map2.put("markft", null);
-        Employee employee;
+        Data data;
         JSONObject jsonObject = new JSONObject();
         String[][] array = new String[100][100];
 
@@ -65,25 +65,25 @@ public class App {
 
                 if (!(item.isDirectory())) {
                     ICsvBeanReader csvBeanReader = new CsvBeanReader(new FileReader("C:\\Users\\BornToNight\\Desktop\\Project\\source\\" + item.getName()), STANDARD_SKIP_COMMENTS); //Считываем данные с CSV файла
-                    while ((employee = csvBeanReader.read(Employee.class, mapping)) != null) {
-                        System.out.println("id = " +employee.getId()+ ", count = " + employee.getCount());
-                        map.merge(employee.getId().toLowerCase(), Integer.parseInt(employee.getCount()), (oldValue, newValue) -> oldValue + newValue); //Добавление данных в первую карту
-                        map2.merge(employee.getId().toLowerCase(), Integer.parseInt(employee.getCount()), (oldValue, newValue) -> oldValue + newValue);//Добавление данных в вторую карту
-                        employeeList.add(employee);
+                    while ((data = csvBeanReader.read(Data.class, mapping)) != null) {
+                        System.out.println("id = " + data.getId()+ ", count = " + data.getCount());
+                        map.merge(data.getId().toLowerCase(), Integer.parseInt(data.getCount()), (oldValue, newValue) -> oldValue + newValue); //Добавление данных в первую карту
+                        map2.merge(data.getId().toLowerCase(), Integer.parseInt(data.getCount()), (oldValue, newValue) -> oldValue + newValue);//Добавление данных в вторую карту
+                        dataList.add(data);
                         //Цикл добавления данных в двумерный массив
                         for (int i = 0; i < array.length; i++){
                             //Если такой id уже имеется, записываются данные в этот массив
-                            if (employee.getId().toLowerCase().equalsIgnoreCase(array[i][0])){
+                            if (data.getId().toLowerCase().equalsIgnoreCase(array[i][0])){
                                 for (int j = 2; j < array.length; j++){
                                     if (array[i][j] == null){
-                                        array[i][j] = employee.getCount();
+                                        array[i][j] = data.getCount();
                                         break;
                                     }
                                 }break; //Выход из цикла, если данные добавлены
                             //Иначе добавляется новый массив с новым id
                             }else if(array[i][0] == null){
-                                array[i][0] = employee.getId();
-                                array[i][1] = employee.getCount();
+                                array[i][0] = data.getId();
+                                array[i][1] = data.getCount();
                                 break;
                             }
                         }
